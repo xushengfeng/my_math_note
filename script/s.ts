@@ -69,6 +69,22 @@ function checkBaseDag(metaData: any) {
 	// todo
 }
 
+function addQa(paths: string[]) {
+	const _metaData = structuredClone(metaData);
+	const existPaths = new Set<string>(_metaData.qa.map((m: any) => m.path));
+	for (const path of paths) {
+		if (existPaths.has(path)) {
+			continue;
+		}
+		_metaData.qa.push({
+			id: newId(),
+			path,
+			name: "",
+		});
+	}
+	return _metaData;
+}
+
 function writeMetaData(data: any) {
 	const metaDataPath = "./data.json";
 	Deno.writeTextFileSync(metaDataPath, JSON.stringify(data, null, 2) + "\n");
@@ -119,5 +135,21 @@ if (argsObj.updatetext) {
 	);
 	const data = updateChapater(textPaths);
 	checkBaseDag(data);
+	writeMetaData(data);
+}
+
+if (argsObj.addqa) {
+	const file = argsObj.addqa === true ? null : (argsObj.addqa as string);
+	if (file) {
+		if (!(file.startsWith("qa/") && file.endsWith(".lean")))
+			throw new Error("path is invalia");
+		Deno.statSync(file);
+	}
+	const qaPaths = file
+		? [file]
+		: getChangedFiles().filter(
+				(i) => i.startsWith("qa/") && i.endsWith(".lean"),
+			);
+	const data = addQa(qaPaths);
 	writeMetaData(data);
 }

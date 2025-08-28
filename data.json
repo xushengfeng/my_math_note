@@ -50,5 +50,21 @@
     }
   ],
   "books": [],
-  "qa": []
+  "qa": [
+    {
+      "id": "70452a2d",
+      "path": "qa/logic.lean",
+      "name": ""
+    },
+    {
+      "id": "6586af97",
+      "path": "qa/subset_refl.lean",
+      "name": ""
+    },
+    {
+      "id": "fd6b8b46",
+      "path": "qa/subset_trans.lean",
+      "name": ""
+    }
+  ]
 }

@@ -1,70 +1,72 @@
 {
-  "$schema": "./script/schema.json",
-  "meta": {},
-  "text": [
-    {
-      "id": "3e9d8980",
-      "name": "基本数学概念与 Lean 示例",
-      "base": [],
-      "path": "text/base.md"
-    },
-    {
-      "id": "95d4423f",
-      "name": "",
-      "base": [],
-      "path": "text/dics.md"
-    },
-    {
-      "id": "db5c4ca7",
-      "name": "集合",
-      "base": [
-        "8963de19"
-      ],
-      "path": "text/gaozhong/set.md"
-    },
-    {
-      "id": "8963de19",
-      "name": "简单逻辑",
-      "base": [],
-      "path": "text/gaozhong/简单逻辑.md"
-    },
-    {
-      "id": "e3cc7c91",
-      "name": "集合间的基本关系",
-      "base": [
-        "db5c4ca7"
-      ],
-      "path": "text/gaozhong/集合间的基本关系.md"
-    },
-    {
-      "id": "8d3627c5",
-      "name": "",
-      "base": [],
-      "path": "text/lean_gramma.md"
-    },
-    {
-      "id": "2a40308a",
-      "name": "",
-      "base": [],
-      "path": "text/math.md"
-    }
-  ],
-  "books": [],
-  "qa": [
-    {
-      "id": "70452a2d",
-      "path": "qa/logic.lean",
-      "name": ""
-    },
-    {
-      "id": "6586af97",
-      "path": "qa/subset_refl.lean",
-      "name": ""
-    },
-    {
-      "id": "fd6b8b46",
-      "path": "qa/subset_trans.lean",
-      "name": ""
-    }
-  ]
+    "$schema": "./script/schema.json",
+    "meta": {},
+    "text": [
+        {
+            "id": "3e9d8980",
+            "name": "基本数学概念与 Lean 示例",
+            "base": [],
+            "path": "text/base.md"
+        },
+        {
+            "id": "95d4423f",
+            "name": "",
+            "base": [],
+            "path": "text/dics.md"
+        },
+        {
+            "id": "db5c4ca7",
+            "name": "集合",
+            "base": ["8963de19"],
+            "path": "text/gaozhong/set.md"
+        },
+        {
+            "id": "8963de19",
+            "name": "简单逻辑",
+            "base": [],
+            "path": "text/gaozhong/简单逻辑.md"
+        },
+        {
+            "id": "e3cc7c91",
+            "name": "集合间的基本关系",
+            "base": ["db5c4ca7"],
+            "path": "text/gaozhong/集合间的基本关系.md"
+        },
+        {
+            "id": "8d3627c5",
+            "name": "",
+            "base": [],
+            "path": "text/lean_gramma.md"
+        },
+        {
+            "id": "2a40308a",
+            "name": "",
+            "base": [],
+            "path": "text/math.md"
+        }
+    ],
+    "books": [
+        {
+            "name": "高中数学",
+            "id": "gzsx",
+            "chapter": ["2a40308a", "8d3627c5", "95d4423f", "3e9d8980", "8963de19", "db5c4ca7", "e3cc7c91"]
+        }
+    ],
+    "qa": [
+        {
+            "id": "70452a2d",
+            "path": "qa/logic.lean",
+            "name": ""
+        },
+        {
+            "id": "6586af97",
+            "path": "qa/subset_refl.lean",
+            "name": ""
+        },
+        {
+            "id": "fd6b8b46",
+            "path": "qa/subset_trans.lean",
+            "name": ""
+        }
+    ]
 }

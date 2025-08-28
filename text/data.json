@@ -1,7 +1,0 @@
-[
-	{
-		"id": "gaozhong",
-		"name": "高中数学",
-		"chapter": [{ "name": "集合", "x": "set.md" }]
-	}
-]

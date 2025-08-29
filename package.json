@@ -8,6 +8,8 @@
         "uptype": "json2ts script/schema.json data.d.ts"
     },
     "devDependencies": {
+        "@types/mdast": "^4.0.4",
+        "@types/unist": "^3.0.3",
         "json-schema-to-typescript": "^15.0.4",
         "vite": "^7.1.3"
     },

@@ -3,9 +3,9 @@ import {
 	initDKH,
 	addClass,
 	type ElType,
-	textarea,
 	pText,
 	button,
+	ele,
 } from "dkh-ui";
 import rehypeRaw from "rehype-raw";
 import rehypeStringify from "rehype-stringify";
@@ -101,6 +101,7 @@ function codeUrlParse(url: string) {
 	const o: {
 		id: string;
 		answer?: boolean;
+		th?: boolean;
 		hide?: boolean;
 		from?: string;
 		to?: string;
@@ -114,6 +115,21 @@ function codeUrlParse(url: string) {
 			o[k] = v || true;
 	}
 	return o;
+}
+
+function parseCode(code: string) {
+	// 假定只有一个命题
+	const nc = code.split("\n");
+	const x = (nc.at(0) || "")
+		.replace(/^\s?example\s+/, "")
+		.replace(/^\s?theorem\s+\S+\s+/, "")
+		.replace(/:=\s?by/, "")
+		.trim();
+	return {
+		x,
+		// todo 分离前提和结论
+		// todo 前提分为对象和条件
+	};
 }
 
 async function renderLeanCode2(
@@ -133,14 +149,30 @@ async function renderLeanCode2(
 
 	const f2 = lines.slice(from, to).join("\n");
 
-	const textEl = pText().sv(f2);
-	if (o.hide) {
-		textEl.style({ display: "none" });
+	const textEl = pText()
+		.style({
+			whiteSpace: "pre",
+			fontFamily: "monospace",
+		})
+		.sv(f2);
+	if (o.hide || o.th) {
+		el.style({ position: "relative" });
+		textEl.style({
+			display: "none",
+			background: "#eee",
+			position: "absolute",
+			top: "2em",
+			left: "0",
+		});
 		const b = button().add("::").style({ fontFamily: "monospace" });
 		b.on("click", () => {
 			if (textEl.el.style.display === "none") textEl.style({ display: "" });
 			else textEl.style({ display: "none" });
 		});
+		if (o.th) {
+			const x = parseCode(f2);
+			el.add(ele("code").add(x.x));
+		}
 		el.add(b).add(textEl);
 	} else {
 		el.add(textEl);
@@ -275,11 +307,11 @@ const contentEl = view()
 					paddingInline: "2px",
 					background: "#eee",
 				},
-				"& p > code": {
+				"& > p code": {
 					paddingInline: "2px",
 					background: "#eee",
 				},
-				"& p": {
+				"& > p": {
 					marginBlock: "1em",
 				},
 			},

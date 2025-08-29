@@ -181,7 +181,7 @@ function processParagraph(node: Paragraph) {
 	// 段落模式
 	if (node.children.length === 1 && node.children[0]?.type === "text") {
 		const f = node.children[0].value;
-		const m = f.match(rg);
+		const m = f.match(/\[\[p:([^\]]+)\]\]/);
 		if (m && m[0].length === f.length) {
 			node.children = [
 				{

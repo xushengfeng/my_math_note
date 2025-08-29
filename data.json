@@ -10,7 +10,7 @@
     },
     {
       "id": "95d4423f",
-      "name": "",
+      "name": "使用说明",
       "base": [],
       "path": "text/dics.md"
     },
@@ -38,15 +38,15 @@
     },
     {
       "id": "8d3627c5",
-      "name": "",
+      "name": "lean 语法",
       "base": [],
       "path": "text/lean_gramma.md"
     },
     {
       "id": "2a40308a",
-      "name": "",
+      "name": "前言",
       "base": [],
-      "path": "text/math.md"
+      "path": "text/pre.md"
     },
     {
       "id": "f890a22c",

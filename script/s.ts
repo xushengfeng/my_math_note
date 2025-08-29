@@ -29,7 +29,14 @@ function getChangedFiles() {
 	return output
 		.split("\n")
 		.concat(output2.split("\n"))
-		.filter((i) => i);
+		.filter((i) => {
+			try {
+				Deno.statSync(i);
+				return true;
+			} catch {
+				return false;
+			}
+		});
 }
 
 function parseMdMeta(content: string) {

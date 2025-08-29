@@ -1,3 +1,6 @@
+import Mathlib.Data.Set.Basic
+import Mathlib.Data.Set.Lattice
+
 open Set
 
 theorem Subset.trans {A B C : Set U} (h1 : A ⊆ B) (h2 : B ⊆ C) : A ⊆ C := by

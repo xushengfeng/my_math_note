@@ -5,7 +5,5 @@ open Set
 
 variable {U : Type}
 
-theorem Subset.refl (A : Set U) : A ⊆ A := by
-    intro x
-    intro
-    exact a
+example (x : U) (A B : Set U) (h1 : A ⊆ B) (h2 : B ⊆ A) : A = B := by
+  sorry

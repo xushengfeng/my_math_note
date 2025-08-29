@@ -89,6 +89,12 @@
       "name": "组合",
       "base": [],
       "path": "text/gaozhong/组合.md"
+    },
+    {
+      "id": "2b4e82e8",
+      "name": "集合的基本运算",
+      "base": [],
+      "path": "text/gaozhong/集合的基本运算.md"
     }
   ],
   "books": [
@@ -103,6 +109,7 @@
         "8963de19",
         "db5c4ca7",
         "e3cc7c91",
+        "2b4e82e8",
         "f890a22c",
         "0d193691",
         "61560a3a",
@@ -127,6 +134,16 @@
     {
       "id": "fd6b8b46",
       "path": "qa/subset_trans.lean",
+      "name": ""
+    },
+    {
+      "id": "c3bb856c",
+      "path": "qa/subset_dy_example.lean",
+      "name": ""
+    },
+    {
+      "id": "f0140d82",
+      "path": "qa/subset_antisymm.lean",
       "name": ""
     }
   ]

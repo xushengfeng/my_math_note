@@ -6,14 +6,15 @@ import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
+import type { Schema } from "../data.d.ts";
 
 async function init() {
-	const _data = await (await fetch("./data.json")).json();
+	const _data = (await (await fetch("./data.json")).json()) as Schema;
 	console.log(_data);
 	data = _data;
 	bookListEl.clear();
 	bookListEl.add(
-		_data.books.map((item: any) => {
+		_data.books.map((item) => {
 			return view()
 				.add(item.name)
 				.on("click", () => {
@@ -23,10 +24,9 @@ async function init() {
 		}),
 	);
 	const { bid, cid } = Object.fromEntries(new URLSearchParams(location.search));
-	showBook(bid || _data.books[0].id);
+	showBook(bid || Object.values(_data.books).at(0)?.id || "");
 	if (cid) {
-		const n = data.text.find((x: any) => cid === x.id);
-		showText(n);
+		showText(cid);
 	}
 }
 
@@ -40,7 +40,8 @@ function updateURL(op: { bid?: string; cid?: string }) {
 }
 
 function showBook(id: string) {
-	const book = data.books.find((b: any) => b.id === id);
+	if (!id) return;
+	const book = data.books.find((b) => b.id === id);
 	if (!book) {
 		contentEl.clear().add("Book not found");
 		return;
@@ -53,23 +54,28 @@ function showBook(id: string) {
 			return view()
 				.add(n ? n.name : "Unknown")
 				.on("click", () => {
-					showText(n);
+					showText(i);
 				});
 		}),
 	);
 }
 
-async function showText(text: any) {
+async function showText(id: string) {
+	const text = data.text.find((x) => id === x.id);
+	if (!text) {
+		contentEl.clear().add("Text not found");
+		return;
+	}
 	const path = text.path;
 	console.log(path);
 	updateURL({ cid: text.id });
-	const data = await (await fetch(path)).text();
-	const file = await processor.process(data);
+	const fdata = await (await fetch(path)).text();
+	const file = await processor.process(fdata);
 	contentEl.clear();
 	contentEl.el.innerHTML = file.value.toString();
 }
 
-let data: any = null;
+let data: Schema = { meta: {}, books: [], qa: [], text: [] };
 
 const mainEl = view().addInto();
 

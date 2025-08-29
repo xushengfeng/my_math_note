@@ -4,9 +4,11 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "uptype": "json2ts script/schema.json data.d.ts"
     },
     "devDependencies": {
+        "json-schema-to-typescript": "^15.0.4",
         "vite": "^7.1.3"
     },
     "dependencies": {

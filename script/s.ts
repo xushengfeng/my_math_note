@@ -1,3 +1,5 @@
+import type { Schema } from "../data.d.ts";
+
 type TextMeta = {
 	id: string;
 	name: string;
@@ -40,7 +42,7 @@ function parseMdMeta(content: string) {
 
 function updateChapater(paths: string[]) {
 	const _metaData = structuredClone(metaData);
-	const existIds = new Set<string>(_metaData.text.map((m: any) => m.id));
+	const existIds = new Set(_metaData.text.map((m) => m.id));
 	for (const path of paths) {
 		const content = Deno.readTextFileSync(path);
 		const meta = parseMdMeta(content);
@@ -52,9 +54,7 @@ function updateChapater(paths: string[]) {
 			continue;
 		}
 		existIds.add(meta.id);
-		const existingIndex = _metaData.text.findIndex(
-			(m: any) => m.id === meta.id,
-		);
+		const existingIndex = _metaData.text.findIndex((m) => m.id === meta.id);
 		meta.path = path;
 		if (existingIndex !== -1) {
 			_metaData.text[existingIndex] = meta;
@@ -65,13 +65,13 @@ function updateChapater(paths: string[]) {
 	return _metaData;
 }
 
-function checkBaseDag(metaData: any) {
+function checkBaseDag(metaData: Schema) {
 	// todo
 }
 
 function addQa(paths: string[]) {
 	const _metaData = structuredClone(metaData);
-	const existPaths = new Set<string>(_metaData.qa.map((m: any) => m.path));
+	const existPaths = new Set(_metaData.qa.map((m) => m.path));
 	for (const path of paths) {
 		if (existPaths.has(path)) {
 			continue;
@@ -85,9 +85,9 @@ function addQa(paths: string[]) {
 	return _metaData;
 }
 
-function writeMetaData(data: any) {
+function writeMetaData(data: Schema) {
 	const metaDataPath = "./data.json";
-	Deno.writeTextFileSync(metaDataPath, JSON.stringify(data, null, 2) + "\n");
+	Deno.writeTextFileSync(metaDataPath, `${JSON.stringify(data, null, 2)}\n`);
 	console.log(`Updated ${metaDataPath}`);
 }
 
@@ -108,11 +108,11 @@ for (let i = 0; i < args.length; i++) {
 }
 
 const metaDataPath = "./data.json";
-const metaData = JSON.parse(await Deno.readTextFile(metaDataPath));
+const metaData = JSON.parse(await Deno.readTextFile(metaDataPath)) as Schema;
 
 if (argsObj.newmeta) {
 	let nid = newId();
-	while (metaData.text.find((m: any) => m.id === nid)) {
+	while (metaData.text.find((m) => m.id === nid)) {
 		nid = newId();
 	}
 	const data: TextMeta = {

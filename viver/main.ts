@@ -61,7 +61,7 @@ function showBook(id: string) {
 		book.chapter.map((i) => {
 			const n = data.text.find((x) => i === x.id);
 			return view()
-				.add(n ? n.name : "Unknown")
+				.add(n?.name || "Unknown")
 				.on("click", () => {
 					showText(i);
 				});
@@ -242,19 +242,24 @@ function processParagraph(node: Paragraph) {
 
 let data: Schema = { meta: {}, books: [], qa: [], text: [] };
 
-const mainEl = view().addInto();
+const mainEl = view("y").style({ width: "100vw", height: "100vh" }).addInto();
+
+const toolBarEl = view().addInto(mainEl);
 
 const bookListEl = view().addInto(mainEl);
-const contentElP = view().addInto(mainEl);
-const sideEl = view().addInto(contentElP);
+const contentElPP = view("x").style({ overflow: "scroll" }).addInto(mainEl);
+const sidePEl = view()
+	.style({ width: "200px", position: "absolute" })
+	.addInto(contentElPP);
+const sideEl = view().addInto(sidePEl);
+const contentElP = view("y")
+	.style({ overflow: "scroll", width: "100%", alignItems: "center" })
+	.addInto(contentElPP);
 const contentEl = view()
 	.addInto(contentElP)
 	.class(
 		addClass(
-			{
-				paddingInline: "8em",
-				paddingBlockEnd: "60vh",
-			},
+			{ width: "min(90vw, max(400px, 50vw))", paddingBlockEnd: "60vh" },
 			{
 				"& h1": {
 					fontWeight: "bolder",
@@ -264,8 +269,13 @@ const contentEl = view()
 				"& h2": {
 					fontWeight: "bold",
 					fontSize: "1.4em",
+					marginBlock: "0.8em",
 				},
-				"& code": {
+				"& pre": {
+					paddingInline: "2px",
+					background: "#eee",
+				},
+				"& p > code": {
 					paddingInline: "2px",
 					background: "#eee",
 				},

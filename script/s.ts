@@ -40,6 +40,36 @@ function parseMdMeta(content: string) {
 	return null;
 }
 
+function newMetaChapater(paths: string[]) {
+	const existIds = new Set(metaData.text.map((m) => m.id));
+	for (const path of paths) {
+		const content = Deno.readTextFileSync(path);
+		const meta = parseMdMeta(content);
+		if (!meta) {
+			let nid = newId();
+			while (existIds.has(nid)) {
+				nid = newId();
+			}
+			existIds.add(nid);
+			const name = content
+				.split("\n")
+				.find((i) => i.trim().startsWith("# "))
+				?.slice(2)
+				.trim();
+			const data: TextMeta = {
+				id: nid,
+				name: name || "",
+				base: [],
+			};
+			const t = `---\n${JSON.stringify(data, null, 1)
+				.split("\n")
+				.slice(1, -1)
+				.map((i) => i.slice(1))
+				.join("\n")}\n---`;
+			Deno.writeTextFileSync(path, `${t}\n\n${content}`);
+		}
+	}
+}
 function updateChapater(paths: string[]) {
 	const _metaData = structuredClone(metaData);
 	const existIds = new Set(_metaData.text.map((m) => m.id));
@@ -111,22 +141,10 @@ const metaDataPath = "./data.json";
 const metaData = JSON.parse(await Deno.readTextFile(metaDataPath)) as Schema;
 
 if (argsObj.newmeta) {
-	let nid = newId();
-	while (metaData.text.find((m) => m.id === nid)) {
-		nid = newId();
-	}
-	const data: TextMeta = {
-		id: nid,
-		name: "",
-		base: [],
-	};
-	console.log(
-		`---\n${JSON.stringify(data, null, 1)
-			.split("\n")
-			.slice(1, -1)
-			.map((i) => i.slice(1))
-			.join("\n")}\n---`,
+	const textPaths = getChangedFiles().filter(
+		(i) => i.startsWith("text/") && i.endsWith(".md"),
 	);
+	newMetaChapater(textPaths);
 }
 
 if (argsObj.updatetext) {
@@ -152,4 +170,8 @@ if (argsObj.addqa) {
 			);
 	const data = addQa(qaPaths);
 	writeMetaData(data);
+}
+
+if (argsObj.parse) {
+	writeMetaData(metaData);
 }
